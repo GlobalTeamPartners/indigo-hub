@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Telegram Mini App | Международная Академия МЕТОФИЗИКИ ИНДИГО</title>
+
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --tg-theme-bg-color: #0A0D1E;
+      --tg-theme-secondary-bg-color: #111633;
+      --tg-theme-text-color: #F8FAFC;
+      --tg-theme-hint-color: #94A3B8;
+      --tg-theme-link-color: #818CF8;
+      --tg-theme-button-color: #6366F1;
+      --tg-theme-button-text-color: #FFFFFF;
+      
+      --gold: #E2B857;
+      --gold-light: #F6D688;
+      --indigo: #6366F1;
+      --cyan: #06B6D4;
+      --emerald: #10B981;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #040612;
+      color: var(--tg-theme-text-color);
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 16px 8px;
+    }
+
+    /* Desktop Outer Shell */
+    .desktop-top-nav {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+    }
+
+    .desktop-top-nav a {
+      color: var(--gold-light);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .phone-container {
+      width: 100%;
+      max-width: 440px;
+      height: 860px;
+      background: var(--tg-theme-bg-color);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 40px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(99, 102, 241, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 0; }
+      .desktop-top-nav { display: none; }
+      .phone-container {
+        max-width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        border: none;
+      }
+    }
+
+    /* Simulated Notch */
+    .phone-notch {
+      width: 130px;
+      height: 22px;
+      background: #000;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .camera-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #111;
+      border: 1px solid #333;
+    }
+
+    /* App Header */
+    .app-header {
+      background: rgba(17, 22, 51, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 30px 16px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .app-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4F46E5, #A855F7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #FFF;
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .app-brand-text h4 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .app-brand-text span {
+      font-size: 0.68rem;
+      color: var(--gold-light);
+    }
+
+    /* Tab Switcher */
+    .tab-bar {
+      display: flex;
+      background: var(--tg-theme-secondary-bg-color);
+      padding: 6px 8px;
+      gap: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--tg-theme-hint-color);
+      padding: 8px 4px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: rgba(99, 102, 241, 0.2);
+      color: #FFF;
+      border: 1px solid rgba(99, 102, 241, 0.35);
+    }
+
+    /* App Scrollable Body */
+    .app-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      scroll-behavior: smooth;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Product Mini Cards */
+    .product-mini-card {
+      background: var(--tg-theme-secondary-bg-color);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .product-mini-card:active {
+      transform: scale(0.99);
+    }
+
+    .product-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .badge-gold { background: rgba(226, 184, 87, 0.2); color: var(--gold-light); }
+    .badge-emerald { background: rgba(16, 185, 129, 0.2); color: #34D399; }
+    .badge-indigo { background: rgba(99, 102, 241, 0.2); color: #A5B4FC; }
+
+    .product-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #FFF;
+      margin-bottom: 6px;
+    }
+
+    .product-desc {
+      font-size: 0.78rem;
+      color: var(--tg-theme-hint-color);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 10px;
+    }
+
+    .product-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--gold-light);
+    }
+
+    .btn-add-cart {
+      background: linear-gradient(135deg, #4F46E5, #6366F1);
+      color: #FFF;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Fixed Bottom Telegram Action Button */
+    .tg-main-btn {
+      background: linear-gradient(135deg, #E2B857, #F59E0B);
+      color: #0F172A;
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: none;
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 18px rgba(226, 184, 87, 0.4);
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .tg-main-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Diagnostic Quiz Styles in Mini App */
+    .quiz-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .quiz-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #FFF;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      margin-bottom: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .quiz-btn:active, .quiz-btn.active {
+      background: rgba(99, 102, 241, 0.25);
+      border-color: var(--indigo);
+    }
+
+    /* Cart Modal */
+    .cart-drawer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #111633;
+      border-top: 1px solid rgba(226, 184, 87, 0.4);
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      padding: 24px 20px 30px;
+      display: none;
+      z-index: 200;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .cart-drawer.active {
+      display: block;
+      animation: slideUp 0.25s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Desktop Navigation Pointer -->
+  <div class="desktop-top-nav">
+    <a href="index.html">&larr; Вернуться в Штаб Экспансии</a>
+    <span style="color: var(--tg-theme-hint-color);">Эмуляция Telegram WebApp (iOS / Android)</span>
+  </div>
+
+  <!-- Simulated Phone Viewport -->
+  <div class="phone-container">
+    <div class="phone-notch">
+      <div class="camera-dot"></div>
+    </div>
+
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="app-brand">
+        <div class="app-brand-logo">Ψ</div>
+        <div class="app-brand-text">
+          <h4>АКАДЕМИЯ ИНДИГО</h4>
+          <span>Телеграм: @Dinaindigo</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <select id="maCurrency" onchange="switchCurrency(this.value)" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #FFF; font-size: 0.72rem; padding: 4px 6px; border-radius: 6px;">
+          <option value="RUB">RUB ₽</option>
+          <option value="USD" selected>USD $</option>
+          <option value="EUR">EUR €</option>
+          <option value="USDT">USDT ₮</option>
+        </select>
+        <button onclick="openCartModal()" style="background: rgba(226, 184, 87, 0.15); border: 1px solid var(--gold); color: var(--gold-light); font-size: 0.75rem; padding: 4px 10px; border-radius: 8px; cursor: pointer;">
+          🛒 <span id="cartCount">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('catalog', this)">
+        <span>🎓</span>
+        <span>Обучение</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('quiz', this)">
+        <span>🔮</span>
+        <span>Тест (2 мин)</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('diploma', this)">
+        <span>📜</span>
+        <span>Диплом ФРДО</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('founder', this)">
+        <span>👑</span>
+        <span>Дина Индиго</span>
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="app-body">
+
+      <!-- TAB 1: CATALOG -->
+      <section id="tab-catalog" class="tab-content active">
+        <div style="margin-bottom: 12px; font-size: 0.8rem; color: var(--tg-theme-hint-color);">
+          Выберите ступень переподготовки или специализацию:
+        </div>
+
+        <!-- Product 1 -->
+        <div class="product-mini-card">
+          <span class="product-badge badge-emerald">ДИПЛОМ ГОС. ОБРАЗЦА &bull; 560 ЧАСОВ</span>
+          <div class="product-title">Профессиональный Метафизик-Психолог</div>
+          <div class="product-desc">
+            Полный курс профессиональной переподготовки с занесением в Федеральный реестр ФРДО. Квантовая психология, супервизии, диплом.
+          </div>
+          <div class="product-footer">
+            <div class="product-price" data-usd="1800">$1,800</div>
+            <button class="btn-add-cart" onclick="addToCart('Профессиональный Метафизик-Психолог (Диплом ФРДО)', 1800)">
+              + В корзину
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-mini-card">
+          <span class="product-badge badge-gold">ТОП СПЕЦИАЛИЗАЦИЯ</span>
+          <div class="product-title">Квантовая Психосоматика Индиго</div>
+          <div class="product-desc">
+            Исцеление телесных симптомов за 1–3 сессии. Атлас 350+ заболеваний, протоколы чтения поля, международный сертификат.
+          </div>
+          <div class="product-footer">
+            <div class="product-price" data-usd="1200">$1,200</div>
+            <button class="btn-add-cart" onclick="addToCart('Квантовая Психосоматика Индиго', 1200)">
+              + В корзину
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-mini-card">
+          <span class="product-badge badge-indigo">МАСТЕРСТВО</span>
+          <div class="product-title">Квантовая Регрессология &amp; Родовое Поле</div>
+          <div class="product-desc">
+            Бесконтактная регрессия в первопричину без транса. Исцеление кармических узлов семьи, родовых программ и страхов.
+          </div>
+          <div class="product-footer">
+            <div class="product-price" data-usd="1450">$1,450</div>
+            <button class="btn-add-cart" onclick="addToCart('Квантовая Регрессология & Родовое Поле', 1450)">
+              + В корзину
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-mini-card">
+          <span class="product-badge badge-gold">БИЗНЕС-ПРАКТИКА</span>
+          <div class="product-title">Продвижение Психолога: Выход на Чек $150–$500</div>
+          <div class="product-desc">
+            Как привлекать платежеспособных клиентов из США, Европы и ОАЭ. Упаковка премиальных программ, продажи без навязывания.
+          </div>
+          <div class="product-footer">
+            <div class="product-price" data-usd="650">$650</div>
+            <button class="btn-add-cart" onclick="addToCart('Продвижение Психолога (Чек $150-$500)', 650)">
+              + В корзину
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: DIAGNOSTIC QUIZ -->
+      <section id="tab-quiz" class="tab-content">
+        <div class="quiz-card">
+          <div style="font-size: 0.75rem; color: var(--gold-light); margin-bottom: 6px;">ЭКСПРЕСС-ТЕСТ АКАДЕМИИ ИНДИГО</div>
+          <h3 style="font-size: 1.1rem; margin-bottom: 12px;" id="qTitle">1. Каков ваш опыт в психологии и целительстве?</h3>
+          
+          <div id="qOptions">
+            <button class="quiz-btn" onclick="answerQuestion(1, 'Начинаю с абсолютного нуля')">
+              🌱 Начинаю с нуля (хочу новую профессию)
+            </button>
+            <button class="quiz-btn" onclick="answerQuestion(1, 'Практикующий классический психолог')">
+              💼 Практикующий психолог / коуч
+            </button>
+            <button class="quiz-btn" onclick="answerQuestion(1, 'Энергопрактик / эзотерик без диплома')">
+              🔮 Энергопрактик / регрессолог без диплома
+            </button>
+          </div>
+
+          <div id="quizFinished" style="display: none; text-align: center; padding: 14px 0;">
+            <div style="font-size: 2.2rem; margin-bottom: 8px;">🌟</div>
+            <h3 style="font-size: 1.2rem; color: var(--gold-light); margin-bottom: 6px;">Готовность: 96%</h3>
+            <p style="font-size: 0.8rem; color: var(--tg-theme-hint-color); margin-bottom: 16px;">
+              Ваш профиль идеально подходит для программы <strong>«Профессиональный Метафизик-Психолог»</strong> с получением диплома ФРДО.
+            </p>
+            <button class="tg-main-btn" onclick="sendQuizToTelegram()">
+              ✈️ Отправить результат Дине Индиго
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: DIPLOMA & LICENSE -->
+      <section id="tab-diploma" class="tab-content">
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--gold); border-radius: 16px; padding: 18px; text-align: center; margin-bottom: 16px;">
+          <div style="font-size: 0.75rem; color: var(--gold-light); text-transform: uppercase;">Федеральный Реестр Документов об Образовании</div>
+          <h3 style="font-size: 1.2rem; margin: 8px 0;">Диплом Государственного Образца</h3>
+          <div style="font-size: 0.8rem; color: var(--tg-theme-hint-color); line-height: 1.5; margin-bottom: 14px;">
+            Выдается на основании образовательной лицензии в соответствии с ФЗ-273. Каждый бланк имеет уникальный серийный номер и QR-код проверки подлинности.
+          </div>
+          <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 10px; font-size: 0.78rem; color: #34D399; margin-bottom: 14px;">
+            ✓ Законное право на ведение психологической деятельности
+          </div>
+          <button class="quiz-btn" style="justify-content: center; background: rgba(99, 102, 241, 0.2);" onclick="window.open('https://t.me/Dinaindigo?text=Здравствуйте,%20Дина!%20Хочу%20получить%20образец%20диплома%20ФРДО', '_blank')">
+            Запросить образец диплома в Telegram &rarr;
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB 4: FOUNDER -->
+      <section id="tab-founder" class="tab-content">
+        <div style="background: var(--tg-theme-secondary-bg-color); border-radius: 16px; padding: 20px; text-align: center; border: 1px solid rgba(226, 184, 87, 0.3);">
+          <div style="width: 70px; height: 70px; border-radius: 50%; background: #1C1938; border: 2px solid var(--gold); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+            👑
+          </div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 4px;">Дина Индиго</h3>
+          <div style="font-size: 0.78rem; color: var(--gold-light); margin-bottom: 8px;">@Dinaindigo &bull; Основатель Академии</div>
+          <div style="margin-bottom: 14px;">
+            <a href="https://www.instagram.com/dina_indigo_clan" target="_blank" style="color: #A5B4FC; font-size: 0.75rem; text-decoration: none;">
+              📸 Instagram: @dina_indigo_clan
+            </a>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--tg-theme-hint-color); line-height: 1.5; margin-bottom: 18px;">
+            Клинический психолог, автор метода «Квантовая Метафизика Индиго». Более 4,200 выпускников в 38 странах мира. Личный наставник звезд, предпринимателей и экспертов.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="https://t.me/Dinaindigo" target="_blank" class="tg-main-btn" style="text-decoration: none;">
+              ✈️ Написать лично в Telegram
+            </a>
+            <a href="avatar-studio.html" class="quiz-btn" style="justify-content: center; text-decoration: none; margin: 0; background: rgba(168, 85, 247, 0.2);">
+              🤖 Смотреть AI-Двойник Дины
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Bar Trigger -->
+    <div style="padding: 12px 16px; background: rgba(17, 22, 51, 0.95); border-top: 1px solid rgba(255, 255, 255, 0.08); flex-shrink: 0;">
+      <button id="mainActionBtn" class="tg-main-btn" onclick="openCartModal()">
+        🛒 Корзина пуста &bull; Выберите программу
+      </button>
+    </div>
+
+    <!-- Slide-Up Cart Drawer -->
+    <div id="cartDrawer" class="cart-drawer">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 1.1rem;">Ваш Заказ в Академию Индиго</h3>
+        <button onclick="closeCartModal()" style="background: none; border: none; color: #FFF; font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+      <div id="cartItemsList" style="max-height: 220px; overflow-y: auto; margin-bottom: 16px;"></div>
+      <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 800; margin-bottom: 18px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 12px;">
+        <span>Итого:</span>
+        <span id="cartDrawerTotal" style="color: var(--gold-light);">$0</span>
+      </div>
+      <button class="tg-main-btn" onclick="checkoutOrder()">
+        ✈️ Оформить заявку у @Dinaindigo в 1 клик
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    // Telegram WebApp Initialization
+    if (window.Telegram && window.Telegram.WebApp) {
+      const tg = window.Telegram.WebApp;
+      tg.ready();
+      tg.expand();
+      if (tg.HapticFeedback) {
+        tg.HapticFeedback.impactOccurred('light');
+      }
+    }
+
+    // Currency Switcher
+    let currentCurrency = 'USD';
+    const rates = { USD: 1, RUB: 92, EUR: 0.92, USDT: 1 };
+    const symbols = { USD: '$', RUB: '₽', EUR: '€', USDT: '₮' };
+
+    function formatPrice(usd) {
+      const rate = rates[currentCurrency] || 1;
+      const converted = Math.round(usd * rate);
+      if (currentCurrency === 'RUB') return `${converted.toLocaleString('ru-RU')} ₽`;
+      if (currentCurrency === 'EUR') return `${converted.toLocaleString('de-DE')} €`;
+      return `${symbols[currentCurrency]}${converted.toLocaleString('en-US')}`;
+    }
+
+    function switchCurrency(c) {
+      currentCurrency = c;
+      document.querySelectorAll('[data-usd]').forEach(el => {
+        const u = parseFloat(el.getAttribute('data-usd'));
+        el.innerText = formatPrice(u);
+      });
+      updateCartUI();
+    }
+
+    // Tab Switching
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.selectionChanged();
+      }
+    }
+
+    // Cart System
+    let cart = [];
+
+    function addToCart(title, usdPrice) {
+      cart.push({ title, usdPrice });
+      updateCartUI();
+
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+      }
+      alert('✓ Программа добавлена в корзину!');
+    }
+
+    function updateCartUI() {
+      const countEl = document.getElementById('cartCount');
+      const mainBtn = document.getElementById('mainActionBtn');
+      countEl.innerText = cart.length;
+
+      if (cart.length === 0) {
+        mainBtn.innerHTML = '🛒 Корзина пуста &bull; Выберите программу';
+        mainBtn.style.opacity = '0.7';
+      } else {
+        const totalUsd = cart.reduce((acc, item) => acc + item.usdPrice, 0);
+        mainBtn.innerHTML = `🛒 Оформить заявку (${cart.length}) &bull; ${formatPrice(totalUsd)}`;
+        mainBtn.style.opacity = '1';
+      }
+    }
+
+    function openCartModal() {
+      if (cart.length === 0) {
+        alert('Корзина пока пуста! Выберите интересующую программу обучения.');
+        return;
+      }
+      const list = document.getElementById('cartItemsList');
+      list.innerHTML = '';
+      let sum = 0;
+
+      cart.forEach((item, idx) => {
+        sum += item.usdPrice;
+        const row = document.createElement('div');
+        row.style.cssText = 'display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.8rem;';
+        row.innerHTML = `<span>${item.title}</span><span style="color: var(--gold); font-weight: 700;">${formatPrice(item.usdPrice)}</span>`;
+        list.appendChild(row);
+      });
+
+      document.getElementById('cartDrawerTotal').innerText = formatPrice(sum);
+      document.getElementById('cartDrawer').classList.add('active');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cartDrawer').classList.remove('active');
+    }
+
+    function checkoutOrder() {
+      const itemsStr = cart.map(i => `• ${i.title} (${formatPrice(i.usdPrice)})`).join('%0A');
+      const totalUsd = cart.reduce((acc, item) => acc + item.usdPrice, 0);
+      const text = encodeURIComponent(`Здравствуйте, Дина! Хочу оформить обучение в Академии Индиго:%0A%0A${itemsStr}%0A%0AИтого: ${formatPrice(totalUsd)}. Прошу забронировать место!`);
+
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+        window.Telegram.WebApp.openTelegramLink(`https://t.me/Dinaindigo?text=${text}`);
+      } else {
+        window.open(`https://t.me/Dinaindigo?text=${text}`, '_blank');
+      }
+    }
+
+    // Quiz Logic
+    let currentQ = 1;
+    let quizAns = [];
+
+    function answerQuestion(qNum, answer) {
+      quizAns.push(answer);
+      if (qNum === 1) {
+        document.getElementById('qTitle').innerText = '2. Какая финансовая цель на ближайшие 3–6 месяцев?';
+        document.getElementById('qOptions').innerHTML = `
+          <button class="quiz-btn" onclick="answerQuestion(2, '$2,000 - $4,000 в месяц')">💵 $2,000 – $4,000 в мес (180k – 350k ₽)</button>
+          <button class="quiz-btn" onclick="answerQuestion(2, '$5,000 - $10,000 в месяц')">🚀 $5,000 – $10,000 в мес (450k – 900k ₽)</button>
+          <button class="quiz-btn" onclick="answerQuestion(2, 'Более $15,000 в месяц')">👑 $15,000+ в мес (VIP-мастер / Филиал)</button>
+        `;
+      } else if (qNum === 2) {
+        document.getElementById('qTitle').style.display = 'none';
+        document.getElementById('qOptions').style.display = 'none';
+        document.getElementById('quizFinished').style.display = 'block';
+      }
+    }
+
+    function sendQuizToTelegram() {
+      const msg = encodeURIComponent(`Здравствуйте, Дина! Я прошел диагностику в Telegram Mini App Академии Индиго:%0A- Статус: ${quizAns[0]}%0A- Цель по доходу: ${quizAns[1]}%0A%0AХочу зафиксировать грант 20% и обсудить программу!`);
+      window.open(`https://t.me/Dinaindigo?text=${msg}`, '_blank');
+    }
+  </script>
+</body>
+</html>

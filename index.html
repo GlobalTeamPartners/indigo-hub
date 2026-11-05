@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Международная Академия МЕТОФИЗИКИ ИНДИГО | Штаб Экспансии & Хаб Продаж</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/css/theme.css">
+  
+  <style>
+    /* Specific Hub Styles */
+    .hub-hero {
+      padding: 60px 0 40px;
+      position: relative;
+    }
+    
+    .hub-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid var(--border-glow);
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      color: var(--indigo-light);
+      margin-bottom: 24px;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+      margin: 40px 0 60px;
+    }
+    
+    @media (max-width: 1024px) {
+      .kpi-row { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 18px 14px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    
+    .kpi-card:hover {
+      border-color: var(--indigo-light);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+    }
+
+    .kpi-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      margin-bottom: 4px;
+    }
+
+    .kpi-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* Showcase Navigation Cards */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      margin-bottom: 60px;
+    }
+    
+    @media (max-width: 1200px) {
+      .showcase-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 800px) {
+      .showcase-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .showcase-grid { grid-template-columns: 1fr; }
+    }
+
+    .showcase-card {
+      background: linear-gradient(180deg, rgba(20, 27, 60, 0.8) 0%, rgba(10, 14, 34, 0.9) 100%);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .showcase-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, var(--indigo-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .showcase-card:hover {
+      border-color: var(--indigo-light);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.25);
+    }
+
+    .showcase-card.active-hub {
+      border-color: var(--gold-starlight);
+      box-shadow: 0 0 25px var(--gold-glow);
+    }
+
+    .showcase-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .showcase-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFF;
+      margin-bottom: 8px;
+    }
+
+    .showcase-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      flex-grow: 1;
+    }
+
+    .showcase-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--indigo-light);
+    }
+
+    .showcase-card:hover .showcase-cta {
+      color: #FFF;
+    }
+
+    /* Calculator Box */
+    .calc-container {
+      background: linear-gradient(135deg, rgba(16, 22, 54, 0.9) 0%, rgba(8, 12, 30, 0.95) 100%);
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      margin-bottom: 70px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+    }
+
+    @media (max-width: 900px) {
+      .calc-grid { grid-template-columns: 1fr; }
+    }
+
+    .calc-group {
+      margin-bottom: 24px;
+    }
+
+    .calc-label-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .calc-range {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .calc-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--gold-starlight);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--gold-starlight);
+    }
+
+    .calc-result-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(226, 184, 87, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .calc-big-num {
+      font-size: 2.8rem;
+      font-weight: 900;
+      font-family: var(--font-heading);
+      color: var(--gold-starlight);
+      margin: 10px 0 6px;
+    }
+
+    /* Kanban & Roadmap */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 800px) {
+      .kanban-board { grid-template-columns: 1fr; }
+    }
+
+    .kanban-col {
+      background: rgba(14, 19, 44, 0.6);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .kanban-col-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-glass);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .kanban-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      transition: var(--transition);
+      cursor: grab;
+    }
+
+    .kanban-card:hover {
+      border-color: var(--indigo-light);
+      transform: translateX(3px);
+    }
+
+    /* Founder Spotlight */
+    .founder-box {
+      background: linear-gradient(135deg, rgba(23, 17, 49, 0.9) 0%, rgba(13, 16, 38, 0.9) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 36px;
+      align-items: center;
+      margin-bottom: 70px;
+    }
+
+    @media (max-width: 768px) {
+      .founder-box { grid-template-columns: 1fr; text-align: center; }
+    }
+
+    .founder-avatar-wrap {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      margin: 0 auto;
+      border: 3px solid var(--gold-starlight);
+      box-shadow: 0 0 35px var(--gold-glow);
+      position: relative;
+      overflow: hidden;
+      background: #181232;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    /* Interactive Geography Tabs */
+    .geo-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .geo-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .geo-btn:hover, .geo-btn.active {
+      background: var(--indigo-primary);
+      border-color: var(--indigo-light);
+      color: #FFF;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Quantum Canvas -->
+  <canvas id="quantum-canvas"></canvas>
+
+  <div class="content-wrapper">
+
+    <!-- Top Status Bar -->
+    <header class="top-status-bar">
+      <div class="status-indicator">
+        <span class="pulse-dot"></span>
+        <span>ШТАБ ЭКСПАНСИИ АКТИВЕН &bull; 38 СТРАН МИРА &bull; ГОС. ЛИЦЕНЗИЯ &amp; ФРДО</span>
+      </div>
+      <div class="top-controls">
+        <button class="sound-toggle-btn" onclick="indigoAudio.toggleAmbient(this)">🎵 432Hz Звук</button>
+        <select class="currency-select" title="Выберите валюту">
+          <option value="USD">USD ($)</option>
+          <option value="EUR">EUR (€)</option>
+          <option value="RUB">RUB (₽)</option>
+          <option value="USDT">USDT (₮)</option>
+        </select>
+        <a href="https://www.instagram.com/dina_indigo_clan" target="_blank" class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;">
+          📸 Instagram: @dina_indigo_clan
+        </a>
+        <a href="https://t.me/Dinaindigo" target="_blank" class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;">
+          ✈️ Основатель: @Dinaindigo
+        </a>
+      </div>
+    </header>
+
+    <!-- Master Header Nav -->
+    <nav class="master-header">
+      <a href="index.html" class="brand-badge">
+        <div class="brand-logo-icon">Ψ</div>
+        <div class="brand-text">
+          <h3 class="gradient-text-indigo">МЕЖДУНАРОДНАЯ АКАДЕМИЯ МЕТОФИЗИКИ ИНДИГО</h3>
+          <span>Официальное образование &bull; Повышение квалификации психологов</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Штаб Экспансии</a></li>
+        <li><a href="landing.html">Привлечение Клиентов</a></li>
+        <li><a href="presentation.html">Презентация 16:9</a></li>
+        <li><a href="miniapp.html">Telegram Mini App</a></li>
+        <li><a href="avatar-studio.html" style="color: var(--gold-light);">🤖 AI Аватар</a></li>
+        <li><a href="#calculator">Калькулятор Дохода</a></li>
+        <li><a href="#faculties">Программы</a></li>
+      </ul>
+      <div>
+        <a href="https://t.me/Dinaindigo?text=Здравствуйте,%20Дина!%20Хочу%20получить%20консультацию%20по%20Академии%20Индиго" target="_blank" class="btn btn-primary" onclick="indigoAudio.playChime(648)">
+          Записаться в поток &rarr;
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+
+      <!-- Hero Header -->
+      <section class="hub-hero">
+        <div class="hub-hero-badge">
+          <span>🌐 GLOBAL EXPANSION HEADQUARTERS 2026</span>
+          <span style="opacity: 0.4;">|</span>
+          <span style="color: var(--gold-light);">Официальный диплом установленного образца</span>
+        </div>
+        <h1 style="max-width: 950px; margin-bottom: 20px;">
+          Штаб Международного Масштабирования: <br>
+          <span class="gradient-text-indigo">Метафизика Индиго</span> &times; <span class="gradient-text-gold">Институт Психологии Будущего</span>
+        </h1>
+        <p style="font-size: 1.18rem; max-width: 820px; line-height: 1.6; margin-bottom: 30px;">
+          Центральная цифровая платформа Академии Дины Индиго: единый хаб для привлечения студентов и клиентов со всего мира, программы профессиональной переподготовки с занесением в государственный реестр ФРДО, международная аккредитация IPHM/IAOTH и масштабирование частной психологической практики до $5,000–$20,000 в месяц.
+        </p>
+
+        <!-- KPI Row -->
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-num gradient-text-indigo">38+</div>
+            <div class="kpi-label">Стран присутствия выпускников</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num gradient-text-gold">4,200+</div>
+            <div class="kpi-label">Сертифицированных специалистов</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num" style="color: var(--cyan-quantum);">100%</div>
+            <div class="kpi-label">Легитимность: Реестр ФРДО РФ &amp; Мир</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num" style="color: var(--emerald-success);" data-price-usd="4800">$4,800</div>
+            <div class="kpi-label">Средний доход выпускника на 3-й мес.</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num gradient-text-indigo">560 ч.</div>
+            <div class="kpi-label">Глубокой практической переподготовки</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num gradient-text-gold">98.4%</div>
+            <div class="kpi-label">Результативность клиентских кейсов</div>
+          </div>
+        </div>
+
+        <!-- 4 Core Showcase Links (Exact match with reference pattern) -->
+        <div class="showcase-grid">
+          <a href="index.html" class="showcase-card active-hub">
+            <div class="showcase-icon">🌐</div>
+            <div class="showcase-title">Штаб Экспансии &amp; Хаб</div>
+            <div class="showcase-desc">Командный центр управления Академией: финансовая аналитика, реестр стран, база методологий и калькулятор частной практики.</div>
+            <div class="showcase-cta" style="color: var(--gold-light);">Текущий экран &bull; Активен</div>
+          </a>
+
+          <a href="landing.html" class="showcase-card">
+            <div class="showcase-icon">🎬</div>
+            <div class="showcase-title">Лендинг Привлечения</div>
+            <div class="showcase-desc">Кинематографичная международная посадочная страница для набора студентов, психологов и VIP-клиентов на программы Индиго.</div>
+            <div class="showcase-cta">Открыть лендинг &rarr;</div>
+          </a>
+
+          <a href="presentation.html" class="showcase-card">
+            <div class="showcase-icon">📊</div>
+            <div class="showcase-title">Живая Презентация 16:9</div>
+            <div class="showcase-desc">Кинематографичный питчдек на 8 слайдов с аудио-эффектами для переговоров с международными партнерами и инвесторами.</div>
+            <div class="showcase-cta">Запустить презентацию &nearr;</div>
+          </a>
+
+          <a href="miniapp.html" class="showcase-card">
+            <div class="showcase-icon">📱</div>
+            <div class="showcase-title">Telegram Mini App &amp; Тест</div>
+            <div class="showcase-desc">Интерактивный Mini App с каталогом факультетов, экспресс-тестом метафизического потенциала и бронью в 1 клик на @Dinaindigo.</div>
+            <div class="showcase-cta">Открыть Mini App &rarr;</div>
+          </a>
+
+          <a href="avatar-studio.html" class="showcase-card" style="border-color: rgba(168, 85, 247, 0.4);">
+            <div class="showcase-icon">🤖</div>
+            <div class="showcase-title">AI Аватар &amp; Студия</div>
+            <div class="showcase-desc">Цифровой двойник Дины Индиго: мультиязычное вещание на 30+ языках (HeyGen, Higgsfield, ElevenLabs) с правовой защитой.</div>
+            <div class="showcase-cta" style="color: var(--violet-cosmic);">Изучить стратегию &nearr;</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Founder Spotlight -->
+      <section class="founder-box">
+        <div class="founder-avatar-wrap">
+          <span>🔮</span>
+        </div>
+        <div>
+          <div class="badge badge-gold" style="margin-bottom: 10px;">Основатель &amp; Духовный Лидер Академии</div>
+          <h2 style="font-size: 2rem; margin-bottom: 8px;">Дина Индиго <span style="font-size: 1.1rem; color: var(--gold-light); font-weight: normal;">(@Dinaindigo)</span></h2>
+          <p style="font-size: 1.05rem; line-height: 1.6; margin-bottom: 20px;">
+            Создатель авторской системы «Квантовая Метафизика Индиго», клинический психолог высшей категории, исследователь квантовых полей сознания и наставник более 4,000 психологов в 38 странах. Автор методологии быстрого выхода из психотравм, родовых сценариев и соматических блоков через синтез науки и метафизики.
+          </p>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <a href="https://t.me/Dinaindigo" target="_blank" class="btn btn-gold" onclick="indigoAudio.playTick()">
+              ✈️ Личный Telegram: @Dinaindigo
+            </a>
+            <button class="btn btn-outline" onclick="openModal('licenseModal')">
+              📜 Проверить Гос. Лицензию и ФРДО
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Calculator for Psychologists -->
+      <section id="calculator" class="calc-container">
+        <div class="section-header" style="margin-bottom: 30px; text-align: left;">
+          <div class="badge badge-indigo">ЭКОНОМИКА МЕТАФИЗИКА-ПСИХОЛОГА</div>
+          <h2>Интерактивный Калькулятор Дохода и Окупаемости Практики</h2>
+          <p>Рассчитайте потенциальный доход вашей частной практики после освоения метода Индиго и получения официального диплома:</p>
+        </div>
+
+        <div class="calc-grid">
+          <div>
+            <!-- Level Selector -->
+            <div class="calc-group">
+              <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem;">Ваша исходная позиция:</label>
+              <select id="calcLevel" class="currency-select" style="width: 100%; padding: 10px;" onchange="updateCalc()">
+                <option value="1">🌱 Начинающий с нуля (освоение новой профессии психолога)</option>
+                <option value="1.5" selected>💼 Практикующий психолог / коуч (повышение квалификации)</option>
+                <option value="2.5">⭐ ТОП-эксперт / Ведущий трансформационных групп</option>
+                <option value="4.0">👑 Открытие Международного Представительства Академии</option>
+              </select>
+            </div>
+
+            <!-- Price per session -->
+            <div class="calc-group">
+              <div class="calc-label-row">
+                <span>Стоимость вашей 1 сессии:</span>
+                <span id="calcPriceDisplay" style="color: var(--gold-starlight); font-weight: 700;">$150</span>
+              </div>
+              <input type="range" id="calcPrice" class="calc-range" min="30" max="600" step="10" value="150" oninput="updateCalc()">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;">
+                <span>$30 (Старт)</span>
+                <span>$250 (Профи)</span>
+                <span>$600+ (VIP)</span>
+              </div>
+            </div>
+
+            <!-- Clients per month -->
+            <div class="calc-group">
+              <div class="calc-label-row">
+                <span>Количество клиентов в месяц:</span>
+                <span id="calcClientsDisplay" style="color: var(--indigo-light); font-weight: 700;">20 сессий</span>
+              </div>
+              <input type="range" id="calcClients" class="calc-range" min="4" max="80" step="2" value="20" oninput="updateCalc()">
+            </div>
+
+            <!-- Group / Mentoring programs -->
+            <div class="calc-group">
+              <div class="calc-label-row">
+                <span>Групповые метафизические программы / наставничество в мес:</span>
+                <span id="calcGroupDisplay" style="color: var(--cyan-quantum); font-weight: 700;">$1,000</span>
+              </div>
+              <input type="range" id="calcGroup" class="calc-range" min="0" max="8000" step="200" value="1000" oninput="updateCalc()">
+            </div>
+          </div>
+
+          <!-- Result Column -->
+          <div class="calc-result-box">
+            <span style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.08em; color: var(--text-muted);">Прогнозируемый чистый доход в месяц:</span>
+            <div id="calcMonthlyTotal" class="calc-big-num">$4,000</div>
+            <div style="font-size: 0.95rem; color: var(--emerald-success); font-weight: 600; margin-bottom: 14px;" id="calcAnnualTotal">
+              Годовой темп: $48,000 / год
+            </div>
+            <p style="font-size: 0.82rem; margin-bottom: 24px; color: var(--text-muted);">
+              ⚡ Средний срок окупаемости обучения в Академии Индиго составляет <strong>14–28 дней</strong> с момента начала практических супервизий.
+            </p>
+            <a id="calcTelegramLink" href="https://t.me/Dinaindigo?text=Здравствуйте,%20Дина!%20Мой%20расчет%20дохода%20в%20калькуляторе%20составил%20$4,000/мес.%20Хочу%20обсудить%20программу!" target="_blank" class="btn btn-gold" onclick="indigoAudio.playChime(528)">
+              Зафиксировать расчет у @Dinaindigo &rarr;
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Faculties & Programs -->
+      <section id="faculties" class="section-padding">
+        <div class="section-header">
+          <div class="badge badge-indigo">АКАДЕМИЧЕСКИЕ ПРОГРАММЫ 2026</div>
+          <h2>Факультеты Обучения &amp; Переподготовки</h2>
+          <p>Каждая программа включает теоретическую базу, квантовую практику, очные/онлайн супервизии с Диной Индиго и выдачу официальных документов.</p>
+        </div>
+
+        <div class="grid-3">
+          <!-- Course 1 -->
+          <div class="glass-card">
+            <div class="badge badge-emerald" style="margin-bottom: 14px;">ДИПЛОМ ГОС. ОБРАЗЦА (560 ч.)</div>
+            <h3 style="margin-bottom: 12px;">Профессиональный Метафизик-Психолог</h3>
+            <p style="margin-bottom: 20px; font-size: 0.9rem;">
+              Полная профессиональная переподготовка. Квантовая психология, психосоматика, считывание информационного поля, трансформация родовых деструкций.
+            </p>
+            <ul style="list-style: none; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.8;">
+              <li>✓ Внесение в федеральный реестр ФРДО</li>
+              <li>✓ Международный сертификат IPHM</li>
+              <li>✓ 24 персональные супервизии</li>
+              <li>✓ Готовая система привлечения клиентов</li>
+            </ul>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-glass); padding-top: 16px;">
+              <div>
+                <span style="font-size: 0.75rem; color: var(--text-dim); display: block;">Стоимость курса:</span>
+                <span class="gradient-text-gold" style="font-size: 1.3rem; font-weight: 800;" data-price-usd="1800">$1,800</span>
+              </div>
+              <a href="https://t.me/Dinaindigo?text=Здравствуйте,%20Дина!%20Хочу%20узнать%20подробнее%20о%20курсе%20«Профессиональный%20Метафизик-Психолог»" target="_blank" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.85rem;">
+                Выбрать &rarr;
+              </a>
+            </div>
+          </div>
+
+          <!-- Course 2 -->
+          <div class="glass-card glass-card-gold">
+            <div class="badge badge-gold" style="margin-bottom: 14px;">ФЛАГМАНСКАЯ СПЕЦИАЛИЗАЦИЯ</div>
+            <h3 style="margin-bottom: 12px;">Квантовая Психосоматика Индиго</h3>
+            <p style="margin-bottom: 20px; font-size: 0.9rem;">
+              Глубинная экспресс-диагностика первопричин болезней за 15 минут. Восстановление физического здоровья через нейтрализацию ментальных психоблоков.
+            </p>
+            <ul style="list-style: none; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.8;">
+              <li>✓ Атлас 350+ соматических заболеваний</li>
+              <li>✓ Протоколы мгновенной разблокировки</li>
+              <li>✓ Сертификат международного образца</li>
+              <li>✓ Практика на реальных пациентах</li>
+            </ul>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-glass); padding-top: 16px;">
+              <div>
+                <span style="font-size: 0.75rem; color: var(--text-dim); display: block;">Стоимость курса:</span>
+                <span class="gradient-text-gold" style="font-size: 1.3rem; font-weight: 800;" data-price-usd="1200">$1,200</span>
+              </div>
+              <a href="https://t.me/Dinaindigo?text=Здравствуйте,%20Дина!%20Хочу%20записаться%20на%20курс%20«Квантовая%20Психосоматика%20Индиго»" target="_blank" class="btn btn-gold" style="padding: 8px 16px; font-size: 0.85rem;">
+                Выбрать &rarr;
+              </a>
+            </div>
+          </div>
+
+          <!-- Course 3 -->
+          <div class="glass-card">
+            <div class="badge badge-cyan" style="margin-bottom: 14px;">МАСТЕР-УРОВЕНЬ</div>
+            <h3 style="margin-bottom: 12px;">Квантовая Регрессология &amp; Поле</h3>
+            <p style="margin-bottom: 20px; font-size: 0.9rem;">
+              Работа с хрониками памяти души, родовыми линиями и пространственно-временными узлами. Авторский метод бесконтактного ведения сессии.
+            </p>
+            <ul style="list-style: none; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.8;">
+              <li>✓ Квантовое погружение без гипноза</li>
+              <li>✓ Исцеление кармических контрактов</li>
+              <li>✓ Допуск в Закрытый Клуб Мастеров</li>
+              <li>✓ Право ведения международных групп</li>
+            </ul>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-glass); padding-top: 16px;">
+              <div>
+                <span style="font-size: 0.75rem; color: var(--text-dim); display: block;">Стоимость курса:</span>
+                <span class="gradient-text-gold" style="font-size: 1.3rem; font-weight: 800;" data-price-usd="1450">$1,450</span>
+              </div>
+              <a href="https://t.me/Dinaindigo?text=Здравствуйте,%20Дина!%20Интересует%20«Квантовая%20Регрессология%20и%20Поле»" target="_blank" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.85rem;">
+                Выбрать &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Global Geography & Expansion Hub -->
+      <section class="section-padding" style="background: rgba(10, 14, 32, 0.4); border-radius: var(--radius-xl); border: 1px solid var(--border-glass); padding: 40px;">
+        <div class="section-header" style="text-align: left; margin-bottom: 30px;">
+          <div class="badge badge-cyan">МЕЖДУНАРОДНЫЙ ОХВАТ</div>
+          <h2>География Студентов и Клиентов Академии Индиго</h2>
+          <p>Наша инфраструктура адаптирована для работы со студентами и платежами из любой точки планеты:</p>
+        </div>
+
+        <div class="geo-tabs">
+          <button class="geo-btn active" onclick="filterGeo('all', this)">🌍 Все Регионы (38 стран)</button>
+          <button class="geo-btn" onclick="filterGeo('eu', this)">🇪🇺 Европа &amp; UK</button>
+          <button class="geo-btn" onclick="filterGeo('us', this)">🇺🇸 США &amp; Канада</button>
+          <button class="geo-btn" onclick="filterGeo('uae', this)">🇦🇪 Дубай &amp; Ближний Восток</button>
+          <button class="geo-btn" onclick="filterGeo('asia', this)">🏝️ Бали, Таиланд &amp; Азия</button>
+          <button class="geo-btn" onclick="filterGeo('cis', this)">🇷🇺 СНГ &amp; РФ</button>
+        </div>
+
+        <div class="grid-3" id="geoGrid">
+          <div class="glass-card" data-region="eu">
+            <h4 style="color: var(--indigo-light); margin-bottom: 6px;">🇪🇺 Европейский Союз &amp; Великобритания</h4>
+            <p style="font-size: 0.85rem; margin-bottom: 12px;">Германия, Испания, Кипр, Франция, Лондон. Международные психологические ассоциации признают диплом IPHM.</p>
+            <div style="font-size: 0.8rem; color: var(--gold-light);">💳 Оплата: Stripe, SEPA, Visa/Mastercard, USDT</div>
+          </div>
+
+          <div class="glass-card" data-region="us">
+            <h4 style="color: var(--cyan-quantum); margin-bottom: 6px;">🇺🇸 США &amp; Канада</h4>
+            <p style="font-size: 0.85rem; margin-bottom: 12px;">Нью-Йорк, Майами, Калифорния, Торонто. Огромный спрос на холистическую психологию и метафизику. Чек сессии от $200–$500.</p>
+            <div style="font-size: 0.8rem; color: var(--gold-light);">💳 Оплата: Zelle, Stripe, Wire, USDT</div>
+          </div>
+
+          <div class="glass-card" data-region="uae">
+            <h4 style="color: var(--gold-starlight); margin-bottom: 6px;">🇦🇪 ОАЭ (Дубай) &amp; Ближний Восток</h4>
+            <p style="font-size: 0.85rem; margin-bottom: 12px;">Крупнейший центр русскоязычных предпринимателей и экспатов. Высокий интерес к квантовому расширению финансовой емкости.</p>
+            <div style="font-size: 0.8rem; color: var(--gold-light);">💳 Оплата: AED переводы, крипто-эквайринг, карты</div>
+          </div>
+
+          <div class="glass-card" data-region="asia">
+            <h4 style="color: #34D399; margin-bottom: 6px;">🏝️ Бали &amp; Юго-Восточная Азия</h4>
+            <p style="font-size: 0.85rem; margin-bottom: 12px;">Мировая мекка ретритов и духовных практик. Выпускники Академии проводят живые интенсивы и трансформационные ретриты Индиго.</p>
+            <div style="font-size: 0.8rem; color: var(--gold-light);">💳 Оплата: Международные переводы, USDT</div>
+          </div>
+
+          <div class="glass-card" data-region="cis">
+            <h4 style="color: var(--indigo-light); margin-bottom: 6px;">🇷🇺 Россия &amp; Страны СНГ</h4>
+            <p style="font-size: 0.85rem; margin-bottom: 12px;">Полная государственная аккредитация, выдача диплома государственного образца с обязательной регистрацией в ФРДО.</p>
+            <div style="font-size: 0.8rem; color: var(--gold-light);">💳 Оплата: СБП, рассрочка 0%, карты РФ (МИР)</div>
+          </div>
+
+          <div class="glass-card" data-region="all">
+            <h4 style="color: var(--violet-cosmic); margin-bottom: 6px;">🇮🇱 Израиль</h4>
+            <p style="font-size: 0.85rem; margin-bottom: 12px;">Тель-Авив, Хайфа, Иерусалим. Мощное сообщество психосоматологов и специалистов по полевой терапии травмы.</p>
+            <div style="font-size: 0.8rem; color: var(--gold-light);">💳 Оплата: Bit, Международные карты, USDT</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 21-Day Launch Roadmap & Kanban for Students/Partners -->
+      <section class="section-padding">
+        <div class="section-header">
+          <div class="badge badge-gold">СИСТЕМА КООРДИНАЦИИ</div>
+          <h2>Дорожная Карта Выхода на Международный Рынок за 21 День</h2>
+          <p>Интерактивная канбан-система для выпускников и амбассадоров Академии Индиго:</p>
+        </div>
+
+        <div class="kanban-board" id="kanbanBoard">
+          <!-- Col 1 -->
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span style="color: var(--text-muted);">📋 Фаза 1: Фундамент &amp; Лицензия</span>
+              <span class="badge badge-indigo">3 шага</span>
+            </div>
+            <div class="kanban-card">
+              <strong>Аудит компетенций &amp; распаковка метода</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Синхронизация с куратором Академии, определение позиционирования в метафизике.</p>
+            </div>
+            <div class="kanban-card">
+              <strong>Оформление в реестре ФРДО</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Подача документов на получение диплома государственного образца.</p>
+            </div>
+            <div class="kanban-card">
+              <strong>Инициация в квантовое поле Индиго</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Закрытый онлайн-вебинар с Диной Индиго и передача авторских протоколов.</p>
+            </div>
+          </div>
+
+          <!-- Col 2 -->
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span style="color: var(--gold-light);">⚡ Фаза 2: Практика &amp; Упаковка</span>
+              <span class="badge badge-gold">3 шага</span>
+            </div>
+            <div class="kanban-card">
+              <strong>Супервизии на реальных клиентах</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Проведение первых 5 показательных разборов с обратной связью наставников.</p>
+            </div>
+            <div class="kanban-card">
+              <strong>Подключение Telegram Mini App витрины</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Запуск персонального бота-диагностики для автоматического сбора заявок.</p>
+            </div>
+            <div class="kanban-card">
+              <strong>Настройка приема международных платежей</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Подключение шлюзов для приема оплат в долларах, евро и крипте со всего мира.</p>
+            </div>
+          </div>
+
+          <!-- Col 3 -->
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span style="color: var(--emerald-success);">🚀 Фаза 3: Масштаб &amp; Доход $5k+</span>
+              <span class="badge badge-emerald">3 шага</span>
+            </div>
+            <div class="kanban-card">
+              <strong>Запуск трафика на международный лендинг</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Привлечение платежеспособных клиентов из ЕС, США и Дубая.</p>
+            </div>
+            <div class="kanban-card">
+              <strong>Формирование первой группы наставничества</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Переход от разовых консультаций к пакетному ведению на $1,500–$3,000 с человека.</p>
+            </div>
+            <div class="kanban-card">
+              <strong>Получение статуса Амбассадора Академии</strong>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Право представлять Академию Индиго в своей стране с роялти-программой.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Personal Producer Notebook & Strategy Cache -->
+      <section class="section-padding" style="background: rgba(14, 18, 42, 0.7); border-radius: var(--radius-xl); border: 1px solid var(--border-glass); padding: 36px; margin-bottom: 60px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <div class="badge badge-indigo">РАБОЧИЙ БЛОКНОТ</div>
+            <h3 style="font-size: 1.4rem; margin-top: 6px;">Интерактивный Блокнот Студента / Партнера Академии</h3>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-outline" style="padding: 6px 14px; font-size: 0.8rem;" onclick="saveNote()">💾 Сохранить</button>
+            <button class="btn btn-outline" style="padding: 6px 14px; font-size: 0.8rem;" onclick="exportNotes()">📥 Экспорт JSON</button>
+          </div>
+        </div>
+        <textarea id="notesArea" style="width: 100%; min-height: 140px; background: rgba(5, 7, 18, 0.8); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 16px; color: var(--text-main); font-family: var(--font-sans); font-size: 0.95rem; resize: vertical;" placeholder="Записывайте сюда ваши цели, клиентские инсайты, темы для супервизии с Диной Индиго или план запуска в вашем регионе..."></textarea>
+        <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 8px;">Данные автоматически сохраняются в памяти вашего браузера.</div>
+      </section>
+
+      <!-- CTA Contact Card -->
+      <section style="background: linear-gradient(135deg, rgba(79, 70, 229, 0.25) 0%, rgba(226, 184, 87, 0.15) 100%); border: 1px solid var(--border-glow); border-radius: var(--radius-xl); padding: 50px 30px; text-align: center; margin-bottom: 80px;">
+        <div class="badge badge-gold" style="margin-bottom: 16px;">ПРЯМАЯ СВЯЗЬ С ОСНОВАТЕЛЕМ</div>
+        <h2 style="font-size: 2.4rem; margin-bottom: 16px;">Готовы присоединиться к Международной Академии Индиго?</h2>
+        <p style="max-width: 680px; margin: 0 auto 30px; font-size: 1.1rem;">
+          Напишите Дине Индиго лично в Telegram. Обсудите подходящую программу, возможность получения диплома государственного образца или запуск филиала в вашей стране.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+          <a href="https://t.me/Dinaindigo" target="_blank" class="btn btn-primary" style="padding: 14px 34px; font-size: 1.05rem;" onclick="indigoAudio.playChime(648)">
+            ✈️ Написать Дине Индиго (@Dinaindigo)
+          </a>
+          <a href="landing.html" class="btn btn-outline" style="padding: 14px 28px;">
+            🎬 Посмотреть Лендинг Привлечения &rarr;
+          </a>
+          <a href="miniapp.html" class="btn btn-gold" style="padding: 14px 28px;">
+            📱 Открыть Telegram Mini App &rarr;
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Master Footer -->
+    <footer style="background: rgba(5, 7, 18, 0.95); border-top: 1px solid var(--border-glass); padding: 40px 24px; font-size: 0.85rem; color: var(--text-dim);">
+      <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <div style="font-weight: 700; color: #FFF; margin-bottom: 4px;">МЕЖДУНАРОДНАЯ АКАДЕМИЯ МЕТОФИЗИКИ ИНДИГО</div>
+          <div>Официальное образование, государственная переподготовка ФРДО, международная сертификация IPHM.</div>
+        </div>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+          <a href="index.html" style="color: var(--text-muted); text-decoration: none;">Штаб</a>
+          <a href="landing.html" style="color: var(--text-muted); text-decoration: none;">Лендинг</a>
+          <a href="presentation.html" style="color: var(--text-muted); text-decoration: none;">Презентация</a>
+          <a href="miniapp.html" style="color: var(--text-muted); text-decoration: none;">Mini App</a>
+          <a href="avatar-studio.html" style="color: var(--violet-cosmic); text-decoration: none;">AI Аватар</a>
+          <a href="https://www.instagram.com/dina_indigo_clan" target="_blank" style="color: var(--gold-light); text-decoration: none;">Instagram</a>
+          <a href="https://t.me/Dinaindigo" target="_blank" style="color: var(--gold-light); text-decoration: none;">Telegram: @Dinaindigo</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Modal: License & FRDO Info -->
+  <div id="licenseModal" class="modal-overlay" onclick="if(event.target === this) closeModal('licenseModal')">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeModal('licenseModal')">&times;</button>
+      <div class="badge badge-emerald" style="margin-bottom: 12px;">ОФИЦИАЛЬНАЯ ЛЕГИТИМНОСТЬ</div>
+      <h3 style="font-size: 1.5rem; margin-bottom: 16px;">Государственная Лицензия &amp; Международные Реестры</h3>
+      <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 16px;">
+        Обучение в Международной Академии Метофизики Индиго ведется на основании образовательной лицензии в строгом соответствии с ФЗ № 273-ФЗ «Об образовании в РФ».
+      </p>
+      <div style="background: rgba(255, 255, 255, 0.04); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px; font-size: 0.85rem; line-height: 1.7;">
+        <div>🏛️ <strong>ФРДО:</strong> Каждый выданный диплом регистрируется в Федеральном реестре сведений о документах об образовании.</div>
+        <div>🌐 <strong>Международное признание:</strong> Аккредитация в International Practitioners of Holistic Medicine (IPHM) и IAOTH.</div>
+        <div>⚖️ <strong>Юридическое право:</strong> Диплом дает законное право на ведение профессиональной психологической и консультативной деятельности.</div>
+      </div>
+      <a href="https://t.me/Dinaindigo?text=Здравствуйте,%20Дина!%20Хочу%20получить%20образец%20диплома%20и%20номер%20лицензии" target="_blank" class="btn btn-primary" style="width: 100%;">
+        Запросить образцы диплома у @Dinaindigo &rarr;
+      </a>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/quantum-canvas.js"></script>
+  <script src="assets/js/audio-synth.js"></script>
+  <script src="assets/js/currency.js"></script>
+  
+  <script>
+    // Live Calculator Logic
+    function updateCalc() {
+      const levelMult = parseFloat(document.getElementById('calcLevel').value);
+      const price = parseInt(document.getElementById('calcPrice').value);
+      const clients = parseInt(document.getElementById('calcClients').value);
+      const groupIncome = parseInt(document.getElementById('calcGroup').value);
+
+      document.getElementById('calcPriceDisplay').innerText = IndigoCurrency.format(price);
+      document.getElementById('calcClientsDisplay').innerText = clients + ' сессий';
+      document.getElementById('calcGroupDisplay').innerText = IndigoCurrency.format(groupIncome);
+
+      // Monthly calculation
+      const monthlyUSD = Math.round((price * clients + groupIncome) * (levelMult >= 1.5 ? 1.15 : 1));
+      const annualUSD = monthlyUSD * 12;
+
+      document.getElementById('calcMonthlyTotal').innerText = IndigoCurrency.format(monthlyUSD);
+      document.getElementById('calcAnnualTotal').innerText = 'Годовой темп: ' + IndigoCurrency.format(annualUSD) + ' / год';
+
+      const tgMsg = encodeURIComponent(`Здравствуйте, Дина! Мой расчет в калькуляторе Академии Индиго: ${IndigoCurrency.format(monthlyUSD)} в месяц (${clients} сессий по ${IndigoCurrency.format(price)}). Хочу обсудить поступление!`);
+      document.getElementById('calcTelegramLink').href = `https://t.me/Dinaindigo?text=${tgMsg}`;
+    }
+
+    window.addEventListener('indigo-currency-changed', () => {
+      updateCalc();
+    });
+
+    // Geo Filter
+    function filterGeo(region, btn) {
+      document.querySelectorAll('.geo-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      indigoAudio.playTick();
+
+      const cards = document.querySelectorAll('#geoGrid > div');
+      cards.forEach(card => {
+        if (region === 'all' || card.getAttribute('data-region') === region || card.getAttribute('data-region') === 'all') {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Modal Handlers
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      indigoAudio.playChime(432);
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    // LocalStorage Notes
+    const notesArea = document.getElementById('notesArea');
+    const savedNotes = localStorage.getItem('indigo_student_notes');
+    if (savedNotes) notesArea.value = savedNotes;
+
+    function saveNote() {
+      localStorage.setItem('indigo_student_notes', notesArea.value);
+      indigoAudio.playChime(648);
+      alert('✓ Заметки успешно сохранены в памяти браузера!');
+    }
+
+    function exportNotes() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ notes: notesArea.value, date: new Date().toISOString() }));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "indigo_notes_backup.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCalc();
+    });
+  </script>
+</body>
+</html>
